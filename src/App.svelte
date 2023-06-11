@@ -29,8 +29,15 @@
 
 	.menu-button {
 		padding: 1rem;
-		border: 1px solid black;
-		border-radius: 0.25rem;
+		border: none;
+		color: white;
+		border-radius: 0.5rem;
+		background-color: #641ae6;
+	}
+
+	.menu-button:hover {
+		background-color: #5616c5;
+		cursor: pointer;
 	}
 
 	.message {
@@ -42,8 +49,8 @@
 
 <div class="container">
 	<div class="menu-panel">
-		<div class="menu-button">Chat</div>
-		<div class="menu-button">Pessoas Online</div>
+		<button class="menu-button">Chat</button>
+		<button class="menu-button">Pessoas Online</button>
 	</div>
 
 	<div class="chat-panel">
