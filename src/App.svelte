@@ -1,9 +1,31 @@
 <script>
+	import ChatPanel from "./lib/ChatPanel.svelte";
+	import OnlinePanel from "./lib/OnlinePanel.svelte";
+
 	let showChat = true;
 </script>
 
+<div class="container">
+	<div class="menu-panel">
+		<button on:click={() => showChat = true} class="menu-button">
+			Chat
+		</button>
+		<button on:click={() => showChat = false} class="menu-button">
+			Pessoas Online
+		</button>
+	</div>
+
+	<div class="main-panel">
+		{#if showChat}
+			<ChatPanel />
+		{:else}
+			<OnlinePanel />
+		{/if}
+	</div>
+</div>
+
 <style>
-	.container, .online-container {
+	.container {
 		display: flex;
 		min-height: 100vh;
 		flex-direction: column;
@@ -16,11 +38,7 @@
 		gap: 1rem; 
 	}
 
-	.chat-panel {
-		display: flex;
-		flex-direction: column;
-		align-items: start;
-		gap: 1rem;
+	.main-panel {
 		width: 50%;
 		padding: 1rem;
 		border: 1px solid black;
@@ -39,38 +57,4 @@
 		background-color: #5616c5;
 		cursor: pointer;
 	}
-
-	.message {
-		padding: 1rem;
-		border: 1px solid black;
-		border-radius: 0.25rem;
-	}
 </style>
-
-{#if showChat}
-<div class="container">
-	<div class="menu-panel">
-		<button on:click={() => showChat = true} class="menu-button">Chat</button>
-		<button on:click={() => showChat = false} class="menu-button">Pessoas Online</button>
-	</div>
-
-	<div class="chat-panel">
-		<div class="message">
-			Essa é uma mensagem doida
-		</div>
-
-		<div class="message">
-			Essa é uma mensagem doida
-		</div>
-	</div>
-</div>
-{/if}
-
-{#if !showChat}
-<div class="online-container">
-	<div class="menu-panel">
-		<button on:click={() => showChat = true} class="menu-button">Chat</button>
-		<button on:click={() => showChat = false} class="menu-button">Pessoas Online</button>
-	</div>
-</div>
-{/if}
