@@ -1,9 +1,28 @@
 <script>
 	let showChat = true;
+
+    const users = {
+        thatarocket: {
+            name: "Thais",
+            avatar: "https://avatars.githubusercontent.com/thatarocket"
+        },
+        willpinha: {
+            name: "Willian",
+            avatar: "https://avatars.githubusercontent.com/willpinha"
+        },
+        Gabicolombo: {
+            name: "Gabriela",
+            avatar: "https://avatars.githubusercontent.com/Gabicolombo"
+        },
+        SilasReisUSP: {
+            name: "Silas",
+            avatar: "https://avatars.githubusercontent.com/SilasReisUSP"
+        }
+    }
 </script>
 
 <style>
-	.container, .online-container {
+	.online-container {
 		display: flex;
 		min-height: 100vh;
 		flex-direction: column;
@@ -14,17 +33,6 @@
 	.menu-panel {
 		display: flex;
 		gap: 1rem; 
-	}
-
-	.chat-panel {
-		display: flex;
-		flex-direction: column;
-		align-items: start;
-		gap: 1rem;
-		width: 50%;
-		padding: 1rem;
-		border: 1px solid black;
-		border-radius: 0.25rem;
 	}
 
 	.menu-button {
@@ -40,77 +48,22 @@
 		cursor: pointer;
 	}
 
-	.message {
-		padding: 1rem;
-		border: 1px solid black;
-		border-radius: 0.25rem;
-	}
 </style>
 
-{#if showChat}
-<div class="container">
-	<div class="menu-panel">
-		<button on:click={() => showChat = true} class="menu-button">Chat</button>
-		<button on:click={() => showChat = false} class="menu-button">Pessoas Online</button>
-	</div>
-
-	<div class="chat-panel">
-		<div class="message">
-			Essa é uma mensagem doida
-		</div>
-
-		<div class="message">
-			Essa é uma mensagem doida
-		</div>
-	</div>
-</div>
-{/if}
-
-{#if !showChat}
 <div class="online-container">
-	<div class="menu-panel">
-		<button on:click={() => showChat = true} class="menu-button">Chat</button>
-		<button on:click={() => showChat = false} class="menu-button">Pessoas Online</button>
-	</div>
 
-	<div class="online-panel">
-		<div class="online-user">
-			<div class="user-avatar">
-				<img src="https://avatars.githubusercontent.com/u/47280579?v=4" alt="Avatar Thais">
-			</div>
-			<div class="username">
-				<span>Lucas</span>
-			</div>
-		</div>
+    {#each Object.entries(users) as [username, info]}
+        <div class="online-panel">
+            <div class="online-user">
+                <div class="user-avatar">
+                    <img src={info.avatar} alt="Avatar">
+                </div>
+                <div class="username">
+                    <span>{username}</span>
+                </div>
+            </div>
+        </div>
+    {/each}
 
-		<div class="online-user">
-			<div class="user-avatar">
-				<img src="https://github.com/willpinha" alt="Avatar Willian">
-			</div>
-			<div class="username">
-				<span>willpinha</span>
-			</div>
-		</div>
-
-		<div class="online-user">
-			<div class="user-avatar">
-				<img src="https://github.com/Gabicolombo" alt="Avatar Gabriela">
-			</div>
-			<div class="username">
-				<span>Gabicolombo</span>
-			</div>
-		</div>
-
-		<div class="online-user">
-			<div class="user-avatar">
-				<img src="https://avatars.githubusercontent.com/u/47280579?v=4" alt="Avatar Silas">
-			</div>
-			<div class="username">
-				<span>SilasReisUSP</span>
-			</div>
-		</div>
-			
-	</div>
-
+	
 </div>
-{/if}
