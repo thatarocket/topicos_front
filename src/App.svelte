@@ -1,9 +1,9 @@
 <script>
-	const a = "";
+	let showChat = true;
 </script>
 
 <style>
-	.container {
+	.container, .online-container {
 		display: flex;
 		min-height: 100vh;
 		flex-direction: column;
@@ -47,10 +47,11 @@
 	}
 </style>
 
+{#if showChat}
 <div class="container">
 	<div class="menu-panel">
-		<button class="menu-button">Chat</button>
-		<button class="menu-button">Pessoas Online</button>
+		<button on:click={() => showChat = true} class="menu-button">Chat</button>
+		<button on:click={() => showChat = false} class="menu-button">Pessoas Online</button>
 	</div>
 
 	<div class="chat-panel">
@@ -63,3 +64,13 @@
 		</div>
 	</div>
 </div>
+{/if}
+
+{#if !showChat}
+<div class="online-container">
+	<div class="menu-panel">
+		<button on:click={() => showChat = true} class="menu-button">Chat</button>
+		<button on:click={() => showChat = false} class="menu-button">Pessoas Online</button>
+	</div>
+</div>
+{/if}
