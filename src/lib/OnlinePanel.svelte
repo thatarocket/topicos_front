@@ -22,48 +22,66 @@
 </script>
 
 <style>
-	.online-container {
+	.container {
 		display: flex;
-		min-height: 100vh;
 		flex-direction: column;
-		align-items: center;
-		gap: 2rem; 
+		align-items: left;
+        gap: 0.3rem;
 	}
+    
+    .online-user {
+        display: flex;
+        border: 1px solid #641ae6;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 5px;
+        border-radius: 0.25rem;
+    }
 
-	.menu-panel {
-		display: flex;
-		gap: 1rem; 
-	}
+    .online-user:hover {
+        background-color: #dddcdc;
+        cursor: pointer;
+    }
 
-	.menu-button {
-		padding: 1rem;
-		border: none;
-		color: white;
-		border-radius: 0.5rem;
-		background-color: #641ae6;
-	}
+    .user-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
 
-	.menu-button:hover {
-		background-color: #5616c5;
-		cursor: pointer;
-	}
+    .username {
+        font-size: 1rem;
+        margin: 10px;
+    }
+
+    .title-page {
+        display: flex;
+        justify-content: center;
+    
+    }
+
+    .title-text {
+        font-size: 1.5rem;
+        color: rgb(54, 29, 196);
+        font-weight: bold;
+        margin: 2px;
+    }
 
 </style>
 
-<div class="online-container">
+<div class="container">
+
+    <div class="title-page">
+        <h1 class="title-text">Usuários online</h1>
+    </div>
 
     {#each Object.entries(users) as [username, info]}
-        <div class="online-panel">
-            <div class="online-user">
-                <div class="user-avatar">
-                    <img src={info.avatar} alt="Avatar">
-                </div>
-                <div class="username">
-                    <span>{username}</span>
-                </div>
+        <div class="online-user">
+            <img class="user-avatar" src={info.avatar} alt="Avatar">
+            <div class="username">
+                <span>{username}</span>
             </div>
         </div>
     {/each}
-
-	
 </div>
