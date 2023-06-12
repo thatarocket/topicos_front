@@ -1,19 +1,26 @@
 <script>
-
+    const msgs = [
+        {
+            username: "willpinha",
+            content: "Eita essa é uma mensagem muito longa não é mesmo?",
+            date: "10/10/2010"
+        },
+        {
+            username: "thatarocket",
+            content: "Curto",
+            date: "11/10/2010"
+        }
+    ]
 </script>
 
 <div class="container">
-    <div class="message">
-        <div class="message-title">
-            willpinha
+    {#each msgs as msg}
+        <div class="message">
+            <div class="message-title">{msg.username}</div>
+            <div class="message-body">{msg.content}</div>
+            <div class="message-footer">{msg.date}</div>
         </div>
-        <div class="message-body">
-            Eita essa é uma mensagem muito longa não é mesmo?
-        </div>
-        <div class="message-footer">
-            <div>Enviado em 10/10/2010</div>
-        </div>
-    </div>
+    {/each}
 </div>
 
 <style>
@@ -21,12 +28,13 @@
         display: flex;
         flex-direction: column;
         align-items: start;
+        gap: 0.5rem;
     }
 
     .message {
         display: flex;
         flex-direction: column;
-        gap: 0.3rem;
+        gap: 0.2rem;
     }
 
     .message-title {
@@ -44,8 +52,7 @@
     }
 
     .message-footer {
-        display: flex;
-        justify-content: flex-end; 
+        align-self: flex-end;
         color: #2a323c;
         font-size: 0.8rem;
     }
