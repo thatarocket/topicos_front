@@ -7,8 +7,18 @@
         },
         {
             username: "thatarocket",
-            content: "Curto",
+            content: "Eita",
             date: "11/10/2010"
+        },
+        {
+            username: "silasreis",
+            content: "Tendi nada gente",
+            date: "12/10/2010"
+        },
+        {
+            username: "gabicolombo",
+            content: "Gente vocês viram essa nova atualização do Fortnite, muito bom. Vamo jogar Fortnite galera?",
+            date: "13/10/2010"
         }
     ]
 </script>
