@@ -1,13 +1,27 @@
 <script>
 	import { user } from "../auth";
+	// Importe o cliente Socket.IO
+  import { io } from 'socket.io-client';
+
+  // Defina a URL do servidor Socket.IO
+  const socket = io('http://localhost:2828');
 
 	let username = "";
 
 	user.subscribe((value) => {
 		if (value) {
-			username = value.username;
+			username = value.usuario;
 		}
 	});
+	
+
+  socket.on('connect', () => {
+    console.log('Connected to server');
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected from server');
+  });
 
 	const users = {
 		thatarocket: {
@@ -77,6 +91,7 @@
 	};
 
 	function logout() {
+
 		user.set(null);
 	}
 </script>

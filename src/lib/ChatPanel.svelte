@@ -1,4 +1,37 @@
 <script>
+	// Importe o cliente Socket.IO
+  import { io } from 'socket.io-client';
+	import { user } from "../auth";
+
+	let username = "";
+
+	user.subscribe((value) => {
+		if (value) {
+			username = value.username;
+		}
+	});
+	console.log(JSON.parse(localStorage.getItem("user")));
+  // Defina a URL do servidor Socket.IO
+  const socket = io('http://localhost:2828');
+
+	socket.on('connect', () => {
+    console.log('Connected to server');
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected from server');
+  });
+
+	let mensagem = '';
+
+	function enviarMensagem() {
+		
+    console.log('Mensagem enviada:', mensagem);
+    // Lógica para enviar a mensagem para o servidor ou fazer qualquer outra ação com ela
+    // Exemplo adicional: enviar mensagem para o Socket.IO
+    socket.emit('chat message', { tipo: 'texto', mensagem: mensagem, data: '26/06/2023', usuario: localStorage.getItem('username')});
+  }
+
 	const msgs = [
 		{
 			username: "willpinha",
@@ -84,11 +117,13 @@
 		<input
 			class="flex-1 rounded-lg rounded-r-none bg-gray-700 p-2 text-white outline-none"
 			type="text"
+			bind:value="{mensagem}"
 			placeholder="Envie uma mensagem..."
 		/>
 
 		<button
 			class="flex items-center gap-2 rounded-lg rounded-l-none bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+			on:click="{enviarMensagem}"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
