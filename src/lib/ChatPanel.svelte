@@ -1,69 +1,111 @@
 <script>
-    const msgs = [
-        {
-            username: "willpinha",
-            content: "Eita essa é uma mensagem muito longa não é mesmo?",
-            date: "10/10/2010"
-        },
-        {
-            username: "thatarocket",
-            content: "Eita",
-            date: "11/10/2010"
-        },
-        {
-            username: "silasreis",
-            content: "Tendi nada gente",
-            date: "12/10/2010"
-        },
-        {
-            username: "gabicolombo",
-            content: "Gente vocês viram essa nova atualização do Fortnite, muito bom. Vamo jogar Fortnite galera?",
-            date: "13/10/2010"
-        }
-    ]
+	const msgs = [
+		{
+			username: "willpinha",
+			content: "Eita essa é uma mensagem muito longa não é mesmo?",
+			date: "10/10/2010",
+		},
+		{
+			username: "thatarocket",
+			content: "Eita",
+			date: "11/10/2010",
+		},
+		{
+			username: "silasreis",
+			content: "Tendi nada gente",
+			date: "12/10/2010",
+		},
+		{
+			username: "gabicolombo",
+			content:
+				"Gente vocês viram essa nova atualização do Fortnite, muito bom. Vamo jogar Fortnite galera?",
+			date: "13/10/2010",
+		},
+		{
+			username: "test",
+			content: "test",
+			date: "13/10/2010",
+		},
+		{
+			username: "test",
+			content: "test",
+			date: "13/10/2010",
+		},
+		{
+			username: "test",
+			content: "test",
+			date: "13/10/2010",
+		},
+		{
+			username: "test",
+			content: "test",
+			date: "13/10/2010",
+		},
+	];
 </script>
 
-<div class="container">
-    {#each msgs as msg}
-        <div class="message">
-            <div class="message-title">{msg.username}</div>
-            <div class="message-body">{msg.content}</div>
-            <div class="message-footer">{msg.date}</div>
-        </div>
-    {/each}
+<div class="flex flex-1 flex-col">
+	<div
+		class="flex items-center justify-between bg-gray-800 px-4 py-2 text-white"
+	>
+		<div class="text-lg">🛸 SocketChat</div>
+		<div class="text-sm">
+			Desenvolvido com <span class="text-xs">❤️</span> por Gabriela, Silas,
+			Thais e Willian
+		</div>
+	</div>
+
+	<div
+		class="flex flex-1 flex-col gap-6 overflow-y-auto bg-gradient-to-l from-gray-900 to-gray-950 p-4"
+	>
+		{#each msgs as msg}
+			<div class="flex gap-3 self-start">
+				<img
+					class="h-8 w-8 rounded-full"
+					src="https://avatars.githubusercontent.com/{msg.username}"
+					alt={msg.username}
+				/>
+				<div
+					class="flex flex-col rounded-lg border border-gray-700 bg-gray-800 px-2 py-1"
+				>
+					<div class="text-sm text-green-500">
+						@{msg.username}
+					</div>
+					<div class="text-white">{msg.content}</div>
+					<div class="self-end text-sm text-gray-400">
+						{msg.date}
+					</div>
+				</div>
+			</div>
+		{/each}
+	</div>
+
+	<div class="flex justify-between bg-gray-800 px-4 py-3">
+		<input
+			class="flex-1 rounded-lg rounded-r-none bg-gray-700 p-2 text-white outline-none"
+			type="text"
+			placeholder="Envie uma mensagem..."
+		/>
+
+		<button
+			class="flex items-center gap-2 rounded-lg rounded-l-none bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="20"
+				height="20"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="#fff"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				><path
+					d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+				/></svg
+			>
+
+			<div class="">Enviar</div>
+		</button>
+	</div>
 </div>
-
-<style>
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-        gap: 0.5rem;
-    }
-
-    .message {
-        display: flex;
-        flex-direction: column;
-        gap: 0.2rem;
-    }
-
-    .message-title {
-        font-weight: bold;
-        font-size: 0.9rem;
-        color: #2a323c;
-    }
-
-    .message-body {
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        background-color: #5616c5;
-        font-size: 1rem;
-        color: white;
-    }
-
-    .message-footer {
-        align-self: flex-end;
-        color: #2a323c;
-        font-size: 0.8rem;
-    }
-</style>
