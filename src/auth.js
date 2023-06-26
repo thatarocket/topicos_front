@@ -5,7 +5,7 @@ import api from "./api";
 export const user = writable(null);
 
 export function isAuthenticated() {
-	return localStorage.getItem("token") !== null;
+	return localStorage.getItem("tokens") !== null;
 }
 
 export async function login(username, password) {
@@ -15,10 +15,17 @@ export async function login(username, password) {
 			senha: password,
 		});
 
-		const { nome, usuario, token } = response.data.user;
-
+		const { nome, usuario, tokens } = response.data.user;
+		let user_aux = {
+			nome: nome,
+			usuario: usuario,
+			token: tokens[0].token
+		}
+		console.log(user_aux);
 		user.set({ name: nome, username: usuario });
-		localStorage.setItem("token", token);
+		localStorage.setItem("token", tokens[0].token);
+		localStorage.setItem("user", JSON.stringify(user_aux));
+		localStorage.setItem("username", usuario);
 	} catch (error) {
 		const { message } = error.response.data;
 
