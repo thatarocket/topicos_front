@@ -1,27 +1,11 @@
 <script>
-	import { user } from "../auth";
-	// Importe o cliente Socket.IO
-  import { io } from 'socket.io-client';
+	import { username } from "../stores/chat";
+	import { disconnect } from "../utils/chat";
 
-  // Defina a URL do servidor Socket.IO
-  const socket = io('http://localhost:2828');
-
-	let username = "";
-
-	user.subscribe((value) => {
-		if (value) {
-			username = value.usuario;
-		}
-	});
-	
-
-  socket.on('connect', () => {
-    console.log('Connected to server');
-  });
-
-  socket.on('disconnect', () => {
-    console.log('Disconnected from server');
-  });
+	function exitChat() {
+		disconnect();
+		username.set(null);
+	}
 
 	const users = {
 		thatarocket: {
@@ -89,18 +73,13 @@
 			avatar: "https://avatars.githubusercontent.com/SilasReisUSP",
 		},
 	};
-
-	function logout() {
-
-		user.set(null);
-	}
 </script>
 
 <div
 	class="flex h-screen flex-col border-x border-gray-600 bg-gray-800 text-white"
 >
 	<div class="border-b border-gray-600 px-2 py-2 text-center text-sm">
-		👋 Olá, <span class="font-semibold text-blue-400">@{username}</span>
+		👋 Olá, <span class="font-semibold text-blue-400">@{$username}</span>
 	</div>
 
 	<div
@@ -129,7 +108,7 @@
 
 	<div class="flex justify-center border-t border-gray-600 py-2">
 		<button
-			on:click={logout}
+			on:click={exitChat}
 			class="flex items-center gap-1 rounded-lg bg-red-500 px-4 py-1 hover:bg-red-600"
 		>
 			<svg

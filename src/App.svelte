@@ -1,18 +1,22 @@
 <script>
-	import Login from "./lib/Login.svelte";
+	import { connect } from "./utils/chat";
+	import { isConnected, username } from "./stores/chat";
 	import UserPanel from "./lib/UserPanel.svelte";
 
-	import { user } from "./auth";
+	let usernameInput = "";
 
-	let isAuthenticated = false;
-
-	user.subscribe((value) => {
-		isAuthenticated = value !== null;
-	});
+	function handleClick() {
+		connect(usernameInput);
+		username.set(usernameInput);
+	}
 </script>
 
-{#if isAuthenticated}
+{#if $isConnected}
 	<UserPanel />
 {:else}
-	<Login />
+	<div class="flex flex-col gap-2 border-2 p-8">
+		<input bind:value={usernameInput} placeholder="Enter a username..." />
+
+		<button on:click={handleClick}>Enter</button>
+	</div>
 {/if}
