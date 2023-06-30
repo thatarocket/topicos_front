@@ -1,4 +1,9 @@
 <script>
+	import { sendMessage } from "../utils/chat";
+	import { MessageBuilder } from "../utils/message";
+
+	let content = "";
+
 	const msgs = [
 		{
 			username: "willpinha",
@@ -42,6 +47,11 @@
 			date: "13/10/2010",
 		},
 	];
+
+	function sendText() {
+		sendMessage(MessageBuilder.buildText(content));
+		content = "";
+	}
 </script>
 
 <div class="flex flex-1 flex-col">
@@ -82,6 +92,7 @@
 
 	<div class="flex justify-between bg-gray-800 px-4 py-3">
 		<input
+			bind:value={content}
 			class="flex-1 rounded-lg rounded-r-none bg-gray-700 p-2 text-white outline-none"
 			type="text"
 			placeholder="Envie uma mensagem..."
@@ -89,6 +100,7 @@
 
 		<button
 			class="flex items-center gap-2 rounded-lg rounded-l-none bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+			on:click={sendText}
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -105,7 +117,7 @@
 				/></svg
 			>
 
-			<div class="">Enviar</div>
+			<div >Enviar</div>
 		</button>
 	</div>
 </div>

@@ -1,8 +1,11 @@
 export class MessageBuilder {
 	static buildText(content) {
 		return {
-			type: "text",
-			content,
+			data: new Date().toISOString(),
+			tipo: "texto",
+			mensagem: {
+				texto: content
+			}
 		};
 	}
 
@@ -12,9 +15,5 @@ export class MessageBuilder {
 			url,
 			caption,
 		};
-	}
-
-	static isValid(message) {
-		return message && message.type && message.type in ["text", "image"];
 	}
 }

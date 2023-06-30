@@ -1,5 +1,5 @@
 <script>
-	import { username } from "../stores/chat";
+	import { username, isConnected } from "../stores/chat";
 	import { disconnect } from "../utils/chat";
 
 	function exitChat() {

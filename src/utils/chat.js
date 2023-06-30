@@ -1,3 +1,4 @@
+import { get } from "svelte/store";
 import { MessageBuilder } from "./message";
 import { socket, receivedMessages } from "../stores/chat";
 
@@ -6,7 +7,7 @@ export function connect(name) {
 }
 
 function createSocket(name) {
-	const socket = new WebSocket(`ws://localhost:8080/${name}`);
+	const socket = new WebSocket(`ws://localhost:2829/${name}`);
 
 	socket.onopen = () => {
 		console.log("Connected to server");
@@ -17,10 +18,9 @@ function createSocket(name) {
 	};
 
 	socket.onmessage = (event) => {
-		const message = JSON.parse(event.data);
-
-		receivedMessages.update((messages) => [...messages, message]);
+		console.log(event.data)
 	};
+
 
 	return socket;
 }
@@ -33,15 +33,7 @@ export function disconnect() {
 }
 
 export function sendMessage(message) {
-	if (!MessageBuilder.isValid(message)) {
-		console.error("Invalid message:", message);
-		return;
-	}
-
-	socket.update((socket) => {
-		socket.send(JSON.stringify(message));
-		return socket;
-	});
+	get(socket).send(JSON.stringify(message));
 }
 
 export function getConnectedUsers() {}
