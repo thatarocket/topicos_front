@@ -1,56 +1,19 @@
 <script>
-	import { sendMessage } from "../utils/chat";
+	import { sendMessage, getHistory } from "../utils/chat";
 	import { MessageBuilder } from "../utils/message";
+	import { receivedMessages } from '../stores/chat';
+
+	let messages = [];
 
 	let content = "";
 
-	const msgs = [
-		{
-			username: "willpinha",
-			content: "Eita essa é uma mensagem muito longa não é mesmo?",
-			date: "10/10/2010",
-		},
-		{
-			username: "thatarocket",
-			content: "Eita",
-			date: "11/10/2010",
-		},
-		{
-			username: "silasreis",
-			content: "Tendi nada gente",
-			date: "12/10/2010",
-		},
-		{
-			username: "gabicolombo",
-			content:
-				"Gente vocês viram essa nova atualização do Fortnite, muito bom. Vamo jogar Fortnite galera?",
-			date: "13/10/2010",
-		},
-		{
-			username: "test",
-			content: "test",
-			date: "13/10/2010",
-		},
-		{
-			username: "test",
-			content: "test",
-			date: "13/10/2010",
-		},
-		{
-			username: "test",
-			content: "test",
-			date: "13/10/2010",
-		},
-		{
-			username: "test",
-			content: "test",
-			date: "13/10/2010",
-		},
-	];
-
 	function sendText() {
-		sendMessage(MessageBuilder.buildText(content));
+		sendMessage(MessageBuilder.buildText(content, localStorage.getItem("username")));
 		content = "";
+	}
+
+	function toBase64(binaryData) {
+		return binaryData.toString("base64");
 	}
 </script>
 
@@ -66,27 +29,31 @@
 	</div>
 
 	<div
-		class="flex flex-1 flex-col gap-6 overflow-y-auto bg-gradient-to-l from-gray-900 to-gray-950 p-4"
+		class="flex flex-1 text-white flex-col gap-6 overflow-y-auto bg-gradient-to-l from-gray-900 to-gray-950 p-4"
 	>
-		{#each msgs as msg}
-			<div class="flex gap-3 self-start">
-				<img
-					class="h-8 w-8 rounded-full"
-					src="https://avatars.githubusercontent.com/{msg.username}"
-					alt={msg.username}
-				/>
-				<div
-					class="flex flex-col rounded-lg border border-gray-700 bg-gray-800 px-2 py-1"
-				>
-					<div class="text-sm text-green-500">
-						@{msg.username}
-					</div>
-					<div class="text-white">{msg.content}</div>
-					<div class="self-end text-sm text-gray-400">
-						{msg.date}
-					</div>
+		{#each $receivedMessages as msg}
+			{msg.usuario} - {msg.data}
+			{#if msg.tipo === "texto"}
+				<div>
+					{msg.mensagem.texto}
 				</div>
-			</div>
+			{:else if msg.tipo === "imagem"}
+				<div>
+					{msg.mensagem.descricao}
+					<img src="{toBase64(msg.mensagem.imagem)}" alt="" />
+				</div>
+			{:else if msg.tipo === "video"}
+				<div>
+					{msg.mensagem.descricao}
+					<video src="data:video/mp4;base64,{toBase64(msg.mensagem.video)}" width="240" height="160" controls>
+						<track kind="captions" />
+					</video>
+				</div>
+			{:else }
+				<div>
+					{msg.mensagem.descricao}
+				</div>
+			{/if}
 		{/each}
 	</div>
 
@@ -117,7 +84,7 @@
 				/></svg
 			>
 
-			<div >Enviar</div>
+			<div>Enviar</div>
 		</button>
 	</div>
 </div>

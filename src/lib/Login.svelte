@@ -7,6 +7,7 @@
 	function login() {
 		connect(usernameInput);
 		username.set(usernameInput);
+		localStorage.setItem("username", usernameInput);
 	}
 </script>
 

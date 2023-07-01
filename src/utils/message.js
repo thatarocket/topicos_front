@@ -1,6 +1,7 @@
 export class MessageBuilder {
-	static buildText(content) {
+	static buildText(content, username) {
 		return {
+			usuario: username,
 			data: new Date().toISOString(),
 			tipo: "texto",
 			mensagem: {
@@ -9,11 +10,17 @@ export class MessageBuilder {
 		};
 	}
 
-	static buildImage(url, caption) {
+	static buildImage(png, url, caption, username) {
 		return {
-			type: "image",
-			url,
-			caption,
+			usuario: username,
+			data: new Date().toISOString(),
+			tipo: "imagem",
+			mensagem: {
+				imagem: png,
+				descricao: caption,
+				tipoImagem: 'png',
+				tipo: 10293
+			}
 		};
 	}
 }

@@ -19,6 +19,9 @@ function createSocket(name) {
 
 	socket.onmessage = (event) => {
 		console.log(event.data)
+		const messages = JSON.parse(event.data);
+		console.log(messages)
+		receivedMessages.update((oldMessages) => [...oldMessages, ...messages]);
 	};
 
 
