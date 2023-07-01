@@ -1,14 +1,12 @@
 <script>
 	import { sendMessage, getHistory } from "../utils/chat";
 	import { MessageBuilder } from "../utils/message";
-	import { receivedMessages } from '../stores/chat';
-
-	let messages = [];
+	import { username, receivedMessages } from "../stores/chat";
 
 	let content = "";
 
 	function sendText() {
-		sendMessage(MessageBuilder.buildText(content, localStorage.getItem("username")));
+		sendMessage(MessageBuilder.buildText(content, $username));
 		content = "";
 	}
 
@@ -29,31 +27,41 @@
 	</div>
 
 	<div
-		class="flex flex-1 text-white flex-col gap-6 overflow-y-auto bg-gradient-to-l from-gray-900 to-gray-950 p-4"
+		class="flex flex-1 flex-col gap-8 overflow-y-auto bg-gradient-to-l from-gray-900 to-gray-950 p-4 text-white"
 	>
 		{#each $receivedMessages as msg}
-			{msg.usuario} - {msg.data}
-			{#if msg.tipo === "texto"}
-				<div>
-					{msg.mensagem.texto}
-				</div>
-			{:else if msg.tipo === "imagem"}
-				<div>
-					{msg.mensagem.descricao}
-					<img src="{toBase64(msg.mensagem.imagem)}" alt="" />
-				</div>
-			{:else if msg.tipo === "video"}
-				<div>
-					{msg.mensagem.descricao}
-					<video src="data:video/mp4;base64,{toBase64(msg.mensagem.video)}" width="240" height="160" controls>
-						<track kind="captions" />
-					</video>
-				</div>
-			{:else }
-				<div>
-					{msg.mensagem.descricao}
-				</div>
-			{/if}
+			<div class="flex flex-col items-start gap-2">
+				<div class="text-sm text-blue-400">@{msg.usuario}</div>
+				{#if msg.tipo === "texto"}
+					<div class="rounded-lg bg-slate-900 px-4 py-2">
+						{msg.mensagem.texto}
+					</div>
+				{:else if msg.tipo === "imagem"}
+					<div>
+						{msg.mensagem.descricao}
+						<img src={toBase64(msg.mensagem.imagem)} alt="" />
+					</div>
+				{:else if msg.tipo === "video"}
+					<div>
+						{msg.mensagem.descricao}
+						<video
+							src="data:video/mp4;base64,{toBase64(
+								msg.mensagem.video
+							)}"
+							width="240"
+							height="160"
+							controls
+						>
+							<track kind="captions" />
+						</video>
+					</div>
+				{:else}
+					<div>
+						{msg.mensagem.descricao}
+					</div>
+				{/if}
+				<div class="text-sm text-slate-300">{msg.data}</div>
+			</div>
 		{/each}
 	</div>
 

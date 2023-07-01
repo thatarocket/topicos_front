@@ -1,13 +1,14 @@
 import { get } from "svelte/store";
 import { MessageBuilder } from "./message";
-import { socket, receivedMessages } from "../stores/chat";
+import { username, socket, receivedMessages } from "../stores/chat";
 
 export function connect(name) {
 	socket.set(createSocket(name));
+	username.set(name);
 }
 
 function createSocket(name) {
-	const socket = new WebSocket(`ws://localhost:2829/${name}`);
+	const socket = new WebSocket(`ws://10.0.0.105:2829/${name}`);
 
 	socket.onopen = () => {
 		console.log("Connected to server");
@@ -15,15 +16,13 @@ function createSocket(name) {
 
 	socket.onclose = () => {
 		console.log("Disconnected from server");
+		receivedMessages.set([]);
 	};
 
 	socket.onmessage = (event) => {
-		console.log(event.data)
 		const messages = JSON.parse(event.data);
-		console.log(messages)
 		receivedMessages.update((oldMessages) => [...oldMessages, ...messages]);
 	};
-
 
 	return socket;
 }
@@ -33,6 +32,7 @@ export function disconnect() {
 		socket.close();
 		return null;
 	});
+	username.set(null);
 }
 
 export function sendMessage(message) {

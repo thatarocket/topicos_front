@@ -1,14 +1,7 @@
 <script>
 	import { connect } from "../utils/chat";
-	import { username } from "../stores/chat";
 
-	let usernameInput = "";
-
-	function login() {
-		connect(usernameInput);
-		username.set(usernameInput);
-		localStorage.setItem("username", usernameInput);
-	}
+	let username = "";
 </script>
 
 <div
@@ -21,13 +14,13 @@
 
 		<input
 			class="rounded border bg-transparent p-2"
-			bind:value={usernameInput}
+			bind:value={username}
 			placeholder="Insira um nome de usuário..."
 		/>
 
 		<button
 			class="rounded bg-slate-300 px-2 py-1 text-slate-950 hover:bg-slate-400"
-			on:click={login}>💬 Entrar</button
+			on:click={() => connect(username)}>💬 Entrar</button
 		>
 	</div>
 

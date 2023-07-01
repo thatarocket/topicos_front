@@ -1,11 +1,6 @@
 <script>
-	import { username, isConnected } from "../stores/chat";
+	import { username } from "../stores/chat";
 	import { disconnect } from "../utils/chat";
-
-	function exitChat() {
-		disconnect();
-		username.set(null);
-	}
 
 	const users = {
 		thatarocket: {
@@ -108,7 +103,7 @@
 
 	<div class="flex justify-center border-t border-gray-600 py-2">
 		<button
-			on:click={exitChat}
+			on:click={disconnect}
 			class="flex items-center gap-1 rounded-lg bg-red-500 px-4 py-1 hover:bg-red-600"
 		>
 			<svg
