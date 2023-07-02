@@ -1,7 +1,7 @@
 <script>
 	import { user } from "../stores/user";
 	import { history } from "../utils/history";
-	import { IconUpload } from "@tabler/icons-svelte";
+	import { IconUpload, IconLogout } from "@tabler/icons-svelte";
 
 	let content = "";
 
@@ -53,26 +53,39 @@
 	// }
 </script>
 
-<style>
-
-
-
-
-</style>
-
 <div class="flex flex-1 flex-col">
 	<div
 		class="flex items-center justify-between bg-gray-800 px-4 py-2 text-white"
 	>
-		<div class="text-lg">🛸 SocketChat</div>
-		<div class="text-sm">
-			Desenvolvido com <span class="text-xs">❤️</span> por Gabriela, Silas,
-			Thais e Willian
+		<div class="flex flex-col text-lg">
+			<div>🛸 SocketChat</div>
+			<div class="text-sm">
+				Desenvolvido com <span class="text-xs">❤️</span> por Gabriela, Silas,
+				Thais e Willian
+			</div>
+		</div>
+
+		<div class="flex items-center gap-6">
+			<div>
+				👋 Olá,
+				<span class="font-semibold text-blue-400"
+					>@{$user.username}</span
+				>
+			</div>
+
+			<button
+				on:click={() => ($user = null)}
+				class="flex items-center gap-1 rounded-lg bg-red-500 px-4 py-1 hover:bg-red-600"
+			>
+				<IconLogout size={18} />
+
+				<div class="text-sm">Sair do chat</div>
+			</button>
 		</div>
 	</div>
 
 	<div
-		class="flex flex-1 flex-col gap-8 overflow-y-auto bg-gradient-to-l from-gray-900 to-gray-950 p-4 text-white"
+		class="flex flex-1 flex-col gap-8 overflow-y-auto bg-gradient-to-l from-gray-900 to-gray-950 p-8 text-white"
 	>
 		{#each $history as msg}
 			<div class="flex flex-col items-start gap-2">
@@ -105,17 +118,23 @@
 						<div>{msg.mensagem.descricao}</div>
 
 						<div class="flex flex-col gap-2">
-						{#each msg.mensagem.opcoes as option}
-							<div class="rounded border p-2 flex justify-between bg-slate-800">
+							{#each msg.mensagem.opcoes as option}
+								<div
+									class="flex justify-between rounded border bg-slate-800 p-2"
+								>
+									<div class="flex items-center gap-2">
+										<input
+											type="checkbox"
+											class="bg-slate-600"
+										/>
+										<span>{option.opcao}</span>
+									</div>
 
-								<div class="flex items-center gap-2">
-									<input type="checkbox" class="bg-slate-600" />
-									<span>{option.opcao}</span>
+									<span class="text-sm text-slate-300"
+										>Votos: {option.votos}</span
+									>
 								</div>
-								
-								<span class="text-sm text-slate-300">Votos: {option.votos}</span>
-							</div>
-						{/each}
+							{/each}
 						</div>
 					</div>
 				{/if}
@@ -128,7 +147,7 @@
 		<div class="flex flex-1">
 			<input
 				bind:value={content}
-				class="rounded-lg flex-1 rounded-r-none bg-gray-700 p-2 text-white outline-none"
+				class="flex-1 rounded-lg rounded-r-none bg-gray-700 px-5 text-white outline-none"
 				type="text"
 				placeholder="Envie uma mensagem..."
 			/>
@@ -159,9 +178,21 @@
 			</button>
 		</div>
 
-		<label for="fileUpload" class="hover:bg-green-600 hover:cursor-pointer text-white rounded-full bg-green-500 flex justify-center items-center p-4">
+		<label
+			for="fileUpload"
+			class="flex items-center justify-center rounded-full bg-green-500 p-2 text-white hover:cursor-pointer hover:bg-green-600"
+		>
 			<IconUpload />
 		</label>
-		<input id="fileUpload" type="file" class="hidden" bind:files on:change={uploadFile} />
+		<input
+			id="fileUpload"
+			type="file"
+			class="hidden"
+			bind:files
+			on:change={uploadFile}
+		/>
 	</div>
 </div>
+
+<style>
+</style>
