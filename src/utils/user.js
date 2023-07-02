@@ -1,24 +1,87 @@
 import { io } from "socket.io-client";
+import { updateHistory } from './history.js';
+
+const socket = io("http://localhost:3000");
 
 class Messenger {
-	constructor(socket) {
+	constructor(username, socket) {
 		this.socket = socket;
+		this.username = username;
 	}
 
 	text(content) {
 		console.log(content);
-		console.log(this.socket);
 		this.socket.emit("message", {
-			type: "text",
-			data: { content },
+			usuario: this.username,
+			tipo: "texto",
+			data: new Date().toLocaleDateString("pt-BR"),
+			mensagem: {
+				texto: content
+			}
 		});
+		content = "";
 	}
 
-	image(binary, caption) {
-		this.socket.emit("message", {
-			type: "image",
-			data: { binary, caption },
-		});
+	image(data) {
+		console.log(data);
+		var reader = new FileReader();
+		let message = {}
+		reader.onloadend = function(){
+			message = {
+				usuario: this.username,
+				tipo: "imagem",
+				data: new Date().toLocaleDateString("pt-BR"),
+				mensagem: {
+					imagem: reader.result,
+					descricao: "descricao",
+					tipoImagem: data.type,
+					tamanho: data.size
+				}
+			}
+			console.log(this.username);
+			this.socket.emit("message", message);
+		
+		}.bind(this);
+		
+		reader.readAsDataURL(data);
+	}
+
+	video(data){
+		console.log(data);
+
+		// let message = {
+		// 	usuario: this.username,
+		// 	tipo: "video",
+		// 	data: new Date().toLocaleDateString("pt-BR"),
+		// 	mensagem: {
+		// 		video: data,
+		// 		descricao: "descricao",
+		// 		tipoVideo: data.type,
+		// 		tamanho: data.size
+		// 	}
+		// }
+		// console.log(message);
+		// this.socket.emit("message", message);
+		var reader = new FileReader();
+		let message = {}
+		reader.onloadend = function(){
+			message = {
+				usuario: this.username,
+				tipo: "video",
+				data: new Date().toLocaleDateString("pt-BR"),
+				mensagem: {
+					video: reader.result,
+					descricao: "descricao",
+					tipoVideo: data.type,
+					tamanho: data.size
+				}
+			}
+			console.log(message);
+			this.socket.emit("message", message);
+		
+		}.bind(this);
+		
+		reader.readAsDataURL(data);
 	}
 }
 
@@ -40,19 +103,27 @@ export class User {
 			console.log("Disconnected from server");
 		});
 
-		socket.once("history", (history) => {
+		socket.on("history", (history) => {
+			console.log(history);
 			this.history = history;
+			updateHistory(history);
 		});
 
 		socket.on("message", (message) => {
-			console.log("OPAAAAAAAA");
+			
 			this.history.push(message);
+  		updateHistory([message]);
 		});
 
 		return socket;
 	}
 
+	getHistory() {
+    	return this.history;
+  	}
+
 	send() {
-		return new Messenger(this.socket);
+		console.log(this.username);
+		return new Messenger(this.username, this.socket);
 	}
 }
