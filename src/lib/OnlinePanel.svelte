@@ -1,80 +1,15 @@
 <script>
-	import { username } from "../stores/chat";
-	import { disconnect } from "../utils/chat";
-
-	const users = {
-		thatarocket: {
-			name: "Thais",
-			avatar: "https://avatars.githubusercontent.com/thatarocket",
-		},
-		willpinha: {
-			name: "Willian",
-			avatar: "https://avatars.githubusercontent.com/willpinha",
-		},
-		Gabicolombo: {
-			name: "Gabriela",
-			avatar: "https://avatars.githubusercontent.com/Gabicolombo",
-		},
-		SilasReisUSP: {
-			name: "Silas",
-			avatar: "https://avatars.githubusercontent.com/SilasReisUSP",
-		},
-		thatarocket2: {
-			name: "Thais",
-			avatar: "https://avatars.githubusercontent.com/thatarocket",
-		},
-		willpinha2: {
-			name: "Willian",
-			avatar: "https://avatars.githubusercontent.com/willpinha",
-		},
-		Gabicolombo2: {
-			name: "Gabriela",
-			avatar: "https://avatars.githubusercontent.com/Gabicolombo",
-		},
-		SilasReisUSP2: {
-			name: "Silas",
-			avatar: "https://avatars.githubusercontent.com/SilasReisUSP",
-		},
-		thatarocket3: {
-			name: "Thais",
-			avatar: "https://avatars.githubusercontent.com/thatarocket",
-		},
-		willpinha3: {
-			name: "Willian",
-			avatar: "https://avatars.githubusercontent.com/willpinha",
-		},
-		Gabicolombo3: {
-			name: "Gabriela",
-			avatar: "https://avatars.githubusercontent.com/Gabicolombo",
-		},
-		SilasReisUSP3: {
-			name: "Silas",
-			avatar: "https://avatars.githubusercontent.com/SilasReisUSP",
-		},
-		thatarocket4: {
-			name: "Thais",
-			avatar: "https://avatars.githubusercontent.com/thatarocket",
-		},
-		willpinha4: {
-			name: "Willian",
-			avatar: "https://avatars.githubusercontent.com/willpinha",
-		},
-		Gabicolombo4: {
-			name: "Gabriela",
-			avatar: "https://avatars.githubusercontent.com/Gabicolombo",
-		},
-		SilasReisUSP4: {
-			name: "Silas",
-			avatar: "https://avatars.githubusercontent.com/SilasReisUSP",
-		},
-	};
+	import { user } from "../stores/user";
+	const users = {};
 </script>
 
 <div
 	class="flex h-screen flex-col border-x border-gray-600 bg-gray-800 text-white"
 >
 	<div class="border-b border-gray-600 px-2 py-2 text-center text-sm">
-		👋 Olá, <span class="font-semibold text-blue-400">@{$username}</span>
+		👋 Olá, <span class="font-semibold text-blue-400"
+			>@{$user.username}</span
+		>
 	</div>
 
 	<div
@@ -103,7 +38,7 @@
 
 	<div class="flex justify-center border-t border-gray-600 py-2">
 		<button
-			on:click={disconnect}
+			on:click={() => ($user = null)}
 			class="flex items-center gap-1 rounded-lg bg-red-500 px-4 py-1 hover:bg-red-600"
 		>
 			<svg

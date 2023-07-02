@@ -1,5 +1,6 @@
 <script>
-	import { connect } from "../utils/chat";
+	import { User } from "../utils/user";
+	import { user } from "../stores/user";
 
 	let username = "";
 </script>
@@ -20,7 +21,7 @@
 
 		<button
 			class="rounded bg-slate-300 px-2 py-1 text-slate-950 hover:bg-slate-400"
-			on:click={() => connect(username)}>💬 Entrar</button
+			on:click={() => ($user = new User(username))}>💬 Entrar</button
 		>
 	</div>
 

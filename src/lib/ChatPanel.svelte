@@ -1,18 +1,7 @@
 <script>
-	import { sendMessage, getHistory } from "../utils/chat";
-	import { MessageBuilder } from "../utils/message";
-	import { username, receivedMessages } from "../stores/chat";
+	import { user } from "../stores/user";
 
-	let content = "";
-
-	function sendText() {
-		sendMessage(MessageBuilder.buildText(content, $username));
-		content = "";
-	}
-
-	function toBase64(binaryData) {
-		return binaryData.toString("base64");
-	}
+	let content;
 </script>
 
 <div class="flex flex-1 flex-col">
@@ -29,39 +18,8 @@
 	<div
 		class="flex flex-1 flex-col gap-8 overflow-y-auto bg-gradient-to-l from-gray-900 to-gray-950 p-4 text-white"
 	>
-		{#each $receivedMessages as msg}
-			<div class="flex flex-col items-start gap-2">
-				<div class="text-sm text-blue-400">@{msg.usuario}</div>
-				{#if msg.tipo === "texto"}
-					<div class="rounded-lg bg-slate-900 px-4 py-2">
-						{msg.mensagem.texto}
-					</div>
-				{:else if msg.tipo === "imagem"}
-					<div>
-						{msg.mensagem.descricao}
-						<img src={toBase64(msg.mensagem.imagem)} alt="" />
-					</div>
-				{:else if msg.tipo === "video"}
-					<div>
-						{msg.mensagem.descricao}
-						<video
-							src="data:video/mp4;base64,{toBase64(
-								msg.mensagem.video
-							)}"
-							width="240"
-							height="160"
-							controls
-						>
-							<track kind="captions" />
-						</video>
-					</div>
-				{:else}
-					<div>
-						{msg.mensagem.descricao}
-					</div>
-				{/if}
-				<div class="text-sm text-slate-300">{msg.data}</div>
-			</div>
+		{#each $user.history as msg}
+			<div>{msg}</div>
 		{/each}
 	</div>
 
@@ -75,7 +33,7 @@
 
 		<button
 			class="flex items-center gap-2 rounded-lg rounded-l-none bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-			on:click={sendText}
+			on:click={() => $user.send().text(content)}
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
