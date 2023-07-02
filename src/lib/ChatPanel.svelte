@@ -1,6 +1,7 @@
 <script>
 	import { user } from "../stores/user";
 	import { history } from "../utils/history";
+	import { IconUpload } from "@tabler/icons-svelte";
 
 	let content = "";
 
@@ -35,7 +36,6 @@
 	// 	reader.onloadend = function () {
 	// 		console.log(reader.result);
 
-			
 	// 	};
 	// 	let data = {
 	// 			usuario: "Silas",
@@ -52,6 +52,13 @@
 	// 	$user.send().image(data)
 	// }
 </script>
+
+<style>
+
+
+
+
+</style>
 
 <div class="flex flex-1 flex-col">
 	<div
@@ -81,6 +88,7 @@
 					</div>
 				{:else if msg.tipo === "video"}
 					<div>
+						{msg.mensagem.descricao}
 						<video
 							src="data:video/mp4;base64,{toBase64(
 								msg.mensagem.video
@@ -92,9 +100,23 @@
 							<track kind="captions" />
 						</video>
 					</div>
-				{:else}
-					<div>
-						{msg.mensagem.descricao}
+				{:else if msg.tipo === "enquete"}
+					<div class="flex flex-col gap-3">
+						<div>{msg.mensagem.descricao}</div>
+
+						<div class="flex flex-col gap-2">
+						{#each msg.mensagem.opcoes as option}
+							<div class="rounded border p-2 flex justify-between bg-slate-800">
+
+								<div class="flex items-center gap-2">
+									<input type="checkbox" class="bg-slate-600" />
+									<span>{option.opcao}</span>
+								</div>
+								
+								<span class="text-sm text-slate-300">Votos: {option.votos}</span>
+							</div>
+						{/each}
+						</div>
 					</div>
 				{/if}
 				<div class="text-sm text-slate-300">{msg.data}</div>
@@ -102,35 +124,44 @@
 		{/each}
 	</div>
 
-	<div class="flex justify-between bg-gray-800 px-4 py-3">
-		<input
-			bind:value={content}
-			class="flex-1 rounded-lg rounded-r-none bg-gray-700 p-2 text-white outline-none"
-			type="text"
-			placeholder="Envie uma mensagem..."
-		/>
-		<input type="file" bind:files on:change={uploadFile}/>
+	<div class="flex gap-4 bg-gray-800 px-4 py-3">
+		<div class="flex flex-1">
+			<input
+				bind:value={content}
+				class="rounded-lg flex-1 rounded-r-none bg-gray-700 p-2 text-white outline-none"
+				type="text"
+				placeholder="Envie uma mensagem..."
+			/>
 
-		<button
-			class="flex items-center gap-2 rounded-lg rounded-l-none bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-			on:click={() => {$user.send().text(content); content = ""}}
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				width="20"
-				height="20"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="#fff"
-				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				><path
-					d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-				/></svg
+			<button
+				class="flex items-center gap-2 rounded-lg rounded-l-none bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+				on:click={() => {
+					$user.send().text(content);
+					content = "";
+				}}
 			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="20"
+					height="20"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="#fff"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					><path
+						d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+					/></svg
+				>
 
-			<div>Enviar</div>
-		</button>
+				<div>Enviar</div>
+			</button>
+		</div>
+
+		<label for="fileUpload" class="hover:bg-green-600 hover:cursor-pointer text-white rounded-full bg-green-500 flex justify-center items-center p-4">
+			<IconUpload />
+		</label>
+		<input id="fileUpload" type="file" class="hidden" bind:files on:change={uploadFile} />
 	</div>
 </div>
