@@ -76,12 +76,12 @@ class Messenger {
 					tamanho: data.size
 				}
 			}
-			console.log(message);
+			console.log(reader.result);
+			
 			this.socket.emit("message", message);
-		
 		}.bind(this);
 		
-		reader.readAsDataURL(data);
+		reader.readAsArrayBuffer(data);
 	}
 }
 
